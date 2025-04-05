@@ -1,7 +1,7 @@
 var buttonColours=["green","red","yellow","blue"];
 var gamePattern=[];
 var userClickedPattern=[];
-var level=0;
+var level=1;
 function nextsequence(){
 
   $("h1").text("Level "+level);
@@ -11,7 +11,11 @@ function nextsequence(){
   randomChosenColour=buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
   //button animation and sound
-  $("#"+randomChosenColour).fadeOut().fadeIn();
+  $("#"+randomChosenColour).fadeOut();
+  setTimeout(function(){
+    $("#"+randomChosenColour).fadeIn();
+  },50)
+  
   var audio=new Audio("sounds/"+randomChosenColour+".mp3");
   audio.play();
   
@@ -21,9 +25,13 @@ function nextsequence(){
 $(".btn").on("click",function(){
   var userChosenColour=$(this).attr("id");
   //button animation and sound
-  $("#"+userChosenColour).fadeOut().fadeIn();
+  $("#"+userChosenColour).addClass("pressed");
+  setTimeout(function(){
+    $("#"+userChosenColour).removeClass("pressed");
+  },80)
   var audio=new Audio("sounds/"+userChosenColour+".mp3");
   audio.play();
+  
 
   userClickedPattern.push(userChosenColour);
   var len=userClickedPattern.length;
@@ -38,7 +46,7 @@ function check_answer(len){
       $("h1").text("GAME OVER!!! press any key to restart!!!");
       gamePattern=[];
       userClickedPattern=[];
-      level=0;
+      level=1;
       //sound and animation
       var audio=new Audio("sounds/wrong.mp3");
       audio.play();
